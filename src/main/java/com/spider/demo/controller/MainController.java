@@ -6,7 +6,7 @@ import com.spider.demo.dataobject.User;
 import com.spider.demo.dto.LexiconDTO;
 import com.spider.demo.service.CategoryService;
 import com.spider.demo.service.LexiconService;
-import com.spider.demo.sogou.SoGouSpider;
+import com.spider.demo.sogou.SoGou;
 import com.spider.demo.utils.FileFinderUtil;
 import com.spider.demo.utils.FileToStringUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +55,6 @@ public class MainController {
         File baseDir = new File("G:\\cell");
         if (!baseDir.exists() || !baseDir.isDirectory()) {
             System.out.println("文件查找失败：不是一个目录！");
-
         }
         File[] files = baseDir.listFiles();
         List<File> fileList = new ArrayList(Arrays.asList(files));
@@ -137,18 +136,23 @@ public class MainController {
     private  List<LexiconDTO> getList(List<File> fileList , String targetpath) throws Exception {
         List<LexiconDTO> lexiconDTOList = new ArrayList<>();
         int i = 0;
+        File dir = new File(targetpath);
+        if (!dir.exists())
+            dir.mkdirs();
         for (File file : fileList){
-            File file1 = new File(targetpath+"\\"+FileFinderUtil.getFileName(file)+".txt");
+            File file1 = new File(targetpath + File.separator + FileFinderUtil.getFileName(file)+".txt");
             if(!file1.exists()) {
-                SoGouSpider soGouSpider = new SoGouSpider();
+                SoGou sogou = new SoGou();
                 // System.out.println(FileFinderUtil.getFileName(file));
-                soGouSpider.getSoGouSpider(file.getAbsolutePath(), targetpath+"\\" + FileFinderUtil.getFileName(file) + ".txt");
+                sogou.toTxt(file.getAbsolutePath(),
+                        targetpath + File.separator + FileFinderUtil.getFileName(file) + ".txt",
+                        false);
             }
             LexiconCategory category = new LexiconCategory();
             category.setCategoryName(FileFinderUtil.getFileName(file));
             category = categoryService.save(category);
             String[] f = new String[100000];
-            f = FileToStringUtil.readToString(targetpath+"\\"+FileFinderUtil.getFileName(file)+".txt");
+            f = FileToStringUtil.readToString(targetpath+ File.separator + FileFinderUtil.getFileName(file)+".txt");
             int j = 0;
             //category = categoryService.findByCategoryName(FileFinderUtil.getFileName(file));
             LexiconDTO lexiconDTO = new LexiconDTO();

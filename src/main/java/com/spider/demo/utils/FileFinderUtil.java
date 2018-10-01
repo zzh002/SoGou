@@ -1,13 +1,6 @@
 package com.spider.demo.utils;
 
-import com.spider.demo.dataobject.LexiconCategory;
-import com.spider.demo.dataobject.LexiconInfo;
-import com.spider.demo.service.CategoryService;
-import com.spider.demo.service.LexiconService;
-import com.spider.demo.sogou.SoGouSpider;
-import org.springframework.beans.factory.annotation.Autowired;
-
-
+import com.spider.demo.sogou.SoGou;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -74,11 +67,13 @@ public class FileFinderUtil {
         int i = 0;
 
         for (File file : files){
-            File f = new File(targetDirPayh+"\\"+FileFinderUtil.getFileName(file)+".txt");
+            File f = new File(targetDirPayh + File.separator + FileFinderUtil.getFileName(file)+".txt");
             if(!f.exists()) {
-                SoGouSpider soGouSpider = new SoGouSpider();
+                SoGou sogou = new SoGou();
                 System.out.println(FileFinderUtil.getFileName(file));
-                soGouSpider.getSoGouSpider(file.getAbsolutePath(), targetDirPayh + "\\" + FileFinderUtil.getFileName(file) + ".txt");
+                sogou.toTxt(file.getAbsolutePath(),
+                        targetDirPayh + File.separator + FileFinderUtil.getFileName(file) + ".txt",
+                        false);
             }
             i++;
             if (i>=count&&count!=0)
