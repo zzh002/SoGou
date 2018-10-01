@@ -1,0 +1,30 @@
+.ul1 .nav_list {
+    list-style: none;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    float: left;
+    width: 105px;
+    height: 30px;
+    background: #CFCFCF;
+    line-height: 30px;
+    text-align: center;
+    margin-right: 2px;
+    color: #228B22;
+
+}
+
+.ul1 .nav_list .a1 {
+    display: block;
+    height: 30px;
+    text-decoration: none;
+    color: #fff;
+}
+
+.ul1 .nav_list .a1:hover {
+    background: #999;
+}
+
+#n {
+    background: #F4F4F4;
+}
